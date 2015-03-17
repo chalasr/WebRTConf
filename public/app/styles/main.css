@@ -78,11 +78,6 @@ body {
   }
 }
 
-body {
-  background-color: #000;
-  color: #fff;
-}
-
 video {
   width: 100%;
   border-radius: 10px;
