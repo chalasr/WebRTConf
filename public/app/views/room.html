@@ -11,19 +11,22 @@
   <span ng-bind="error"></span>
 </div>
 
+<div class="col-md-6">
 
 <div class="video-wrapper">
-  <video-player class="col-md-4" ng-repeat="peer in peers" vid-src="{{peer.stream}}"></video-player>
+  <video-player class="col-md-6" ng-repeat="peer in peers" vid-src="{{peer.stream}}"></video-player>
 </div>
 
 <div class="video-wrapper">
-  <div class="col-md-2">
+  <div class="col-md-4">
     <video ng-src="{{getLocalVideo()}}" autoplay muted></video>
   </div>
-  <div>
-    <ul id="messages"></ul>
-    <form ng-submit="textMsg()">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
-  </div>
+</div>
+
+</div>
+<div class="col-md-6">
+  <ul id="messages"></ul>
+  <form class="form-group" ng-submit="textMsg()">
+    <input id="m" autocomplete="off" /><button>Send</button>
+  </form>
 </div>
