@@ -97,9 +97,11 @@ angular.module('publicApp')
         handleMessage(data);
       });
 
-      socket.on('chat message', function(msg){
-        $('#messages').append($('<li>').text(msg));
-        console.log('text msg : ', msg);
+      socket.on('chat message', function(data){
+        var li = '<li class="left clearfix"><div class="chat-body clearfix"><p><b>'+data.username+'</b>&nbsp;&nbsp;&nbsp;'+data.msg+'</p></div></li>'
+        // $('#messages').append($('<li>').text(data.from+' : '+data.msg));
+        $('.chat').append(li);
+        console.log('text msg from #'+data.from+' :', data.msg);
       });
     }
 
@@ -115,6 +117,7 @@ angular.module('publicApp')
       },
       createRoom: function () {
         var d = $q.defer();
+        // setTimeout("$('#myModal').modal()", 500);
         socket.emit('init', null, function (roomid, id) {
           d.resolve(roomid);
           roomId = roomid;
@@ -126,18 +129,21 @@ angular.module('publicApp')
       init: function (s) {
         stream = s;
       },
-      sendMsg: function() {
+      sendMsg: function(room) {
           var msg = $('#m').val();
-          socket.emit('chat message', msg);
+          socket.emit('chat message', { room: room, from: currentId, msg: msg});
           $('#m').val('');
           return false;
+      },
+      setUserName: function (currentUser, room, id){
+        socket.emit('currentUser', { currentRoom: room, user: currentUser, id: currentId });
       }
-
     };
 
     EventEmitter.call(api);
     Object.setPrototypeOf(api, EventEmitter.prototype);
-
     addHandlers(socket);
+
     return api;
+
   });

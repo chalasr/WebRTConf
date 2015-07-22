@@ -23,6 +23,10 @@ angular
         templateUrl: 'views/room.html',
         controller: 'RoomCtrl'
       })
+      // .when('/', {
+      //   templateUrl: 'views/home.html',
+      //   controller: 'RoomCtrl'
+      // })
       .otherwise({
         redirectTo: '/room'
       });
@@ -35,5 +39,5 @@ angular.module('publicApp')
 
 Object.setPrototypeOf = Object.setPrototypeOf || function(obj, proto) {
   obj.__proto__ = proto;
-  return obj; 
+  return obj;
 };
