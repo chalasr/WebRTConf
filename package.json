@@ -12,8 +12,11 @@
   "author": "mgechev",
   "license": "MIT",
   "dependencies": {
+    "dnode": "^1.2.1",
     "express": "^4.10.6",
+    "gulp": "^3.9.0",
     "node-uuid": "^1.4.2",
+    "nodeQuery": "0.0.9-1",
     "socket.io": "~0.9.16"
   }
 }

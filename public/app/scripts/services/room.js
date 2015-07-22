@@ -1,5 +1,5 @@
 /* global RTCIceCandidate, RTCSessionDescription, RTCPeerConnection, EventEmitter */
-'use strict';
+// 'use strict';
 
 /**
  * @ngdoc service
@@ -15,6 +15,7 @@ angular.module('publicApp')
         peerConnections = {},
         currentId, roomId,
         stream;
+
 
     function getPeerConnection(id) {
       if (peerConnections[id]) {
@@ -95,6 +96,11 @@ angular.module('publicApp')
       socket.on('msg', function (data) {
         handleMessage(data);
       });
+
+      socket.on('chat message', function(msg){
+        $('#messages').append($('<li>').text(msg));
+        console.log('text msg : ', msg);
+      });
     }
 
     var api = {
@@ -119,8 +125,16 @@ angular.module('publicApp')
       },
       init: function (s) {
         stream = s;
+      },
+      sendMsg: function() {
+          var msg = $('#m').val();
+          socket.emit('chat message', msg);
+          $('#m').val('');
+          return false;
       }
+
     };
+
     EventEmitter.call(api);
     Object.setPrototypeOf(api, EventEmitter.prototype);
 

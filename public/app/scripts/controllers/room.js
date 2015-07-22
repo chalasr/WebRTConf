@@ -51,4 +51,9 @@ angular.module('publicApp')
     $scope.getLocalVideo = function () {
       return $sce.trustAsResourceUrl(stream);
     };
+
+    $scope.textMsg = function(){
+        Room.sendMsg();
+    };
+
   });
