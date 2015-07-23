@@ -1,6 +1,3 @@
-/* global RTCIceCandidate, RTCSessionDescription, RTCPeerConnection, EventEmitter */
-// 'use strict';
-
 /**
  * @ngdoc service
  * @name publicApp.Room
@@ -15,7 +12,7 @@ angular.module('publicApp')
         peerConnections = {},
         currentId, roomId,
         stream;
-
+    var indexRoom = 0;
 
     function getPeerConnection(id) {
       if (peerConnections[id]) {
@@ -98,10 +95,22 @@ angular.module('publicApp')
       });
 
       socket.on('chat message', function(data){
-        var li = '<li class="left clearfix"><div class="chat-body clearfix"><p><b>'+data.username+'</b>&nbsp;&nbsp;&nbsp;'+data.msg+'</p></div></li>'
-        // $('#messages').append($('<li>').text(data.from+' : '+data.msg));
+        if(data.username){
+          var li = '<li class="left clearfix"><div class="chat-body clearfix"><p><b>'+data.username+'</b>&nbsp;&nbsp;&nbsp;'+data.msg+'</p></div></li>';
+        }
         $('.chat').append(li);
-        console.log('text msg from #'+data.from+' :', data.msg);
+      });
+
+      socket.on('chat info', function(data){
+          angular.forEach(data.msg, function(r){
+            var li = '<li class="left clearfix"><div class="chat-body clearfix"><p>&nbsp;&nbsp;&nbsp;'+r+'</p></div></li>';
+            $('.chat').append(li);
+          });
+        console.log('listRooms :', data);
+      });
+
+      socket.on('listChannels', function(data){
+          api.sendInfo(roomId, data);
       });
     }
 
@@ -111,17 +120,18 @@ angular.module('publicApp')
           socket.emit('init', { room: r }, function (roomid, id) {
             currentId = id;
             roomId = roomid;
+            // name = "Room"+indexRoom;
           });
           connected = true;
         }
       },
       createRoom: function () {
         var d = $q.defer();
-        // setTimeout("$('#myModal').modal()", 500);
         socket.emit('init', null, function (roomid, id) {
           d.resolve(roomid);
           roomId = roomid;
           currentId = id;
+          // name = "Room"+indexRoom;
           connected = true;
         });
         return d.promise;
@@ -129,14 +139,27 @@ angular.module('publicApp')
       init: function (s) {
         stream = s;
       },
-      sendMsg: function(room) {
+      sendMsg: function(room, msg) {
+        if(!msg){
           var msg = $('#m').val();
-          socket.emit('chat message', { room: room, from: currentId, msg: msg});
-          $('#m').val('');
-          return false;
+        }
+        socket.emit('chat message', { room: room, from: currentId, msg: msg});
+        $('#m').val('');
+        return false;
+      },
+      sendInfo: function(room, msg) {
+        console.log(msg);
+        socket.emit('chat info', { room: room, msg: msg});
+        return false;
+      },
+      resetUserName: function (currentUser, room, id){
+        socket.emit('currentUser', { currentRoom: room, user: currentUser, id: currentId });
       },
       setUserName: function (currentUser, room, id){
         socket.emit('currentUser', { currentRoom: room, user: currentUser, id: currentId });
+      },
+      listChannels: function(room){
+         socket.emit('listChannels', { currentRoom : room, id: currentId})
       }
     };
 

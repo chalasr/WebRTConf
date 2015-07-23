@@ -1,7 +1,7 @@
 {
-  "name": "angular-webrtc",
-  "version": "0.0.0",
-  "description": "angular-webrtc",
+  "name": "WebRTConf",
+  "version": "1.0.0",
+  "description": "IRC like multi-user vidéo-chat using AngularJS / Express / WebRTC / SocketIO ",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,14 +9,12 @@
   "repository": {
     "type": "git"
   },
-  "author": "mgechev",
-  "license": "MIT",
+  "author": "rchalas",
+  "license": "GPL",
   "dependencies": {
-    "dnode": "^1.2.1",
     "express": "^4.10.6",
     "gulp": "^3.9.0",
     "node-uuid": "^1.4.2",
-    "nodeQuery": "0.0.9-1",
     "socket.io": "~0.9.16"
   }
 }

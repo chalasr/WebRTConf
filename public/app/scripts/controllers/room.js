@@ -56,10 +56,40 @@ angular.module('publicApp')
 
       $scope.getLoginForm = function(){
         setTimeout("$('#myModal').modal()", 500);
+
       }
 
       $scope.textMsg = function(){
-        Room.sendMsg();
+        var msg = $('#m').val();
+        if (msg.indexOf('/') == 0) {
+            var args = msg.substring(1).split(' ');
+            if (args[0] && args[1]) {
+                msg = args[0];
+                var param = args[1];
+                switch (msg) {
+                  case 'nick':
+                    Room.resetUserName(param, $routeParams.roomId);
+                    break;
+                }
+                $('#m').val('');
+                Room.sendMsg($routeParams.roomId, $scope.currentUser+': nickname changed to '+param);
+                $scope.currentUser = param;
+            }else if(args[0] && !args[1]) {
+                msg = args[0];
+                switch (msg) {
+                  case 'list':
+                    Room.listChannels($routeParams.roomId);
+                    break;
+                }
+                $('#m').val('');
+            }else {
+                var error = 'unrecognized command: ' + msg + '.\n You can type /help';
+                $('#m').val('');
+                console.log(error);
+            }
+        }else{
+          Room.sendMsg();
+        }
       };
 
       $scope.login = function() {
