@@ -8,20 +8,20 @@
 
 <div class="content">
   <!-- Modal -->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+          <h4 class="modal-title" id="myModalLabel">Welcome</h4>
         </div>
         <div class="modal-body">
           <div>
             <form ng-submit="login()">
-              <input autofocus ng-model="currentUser" id="login" type="text" class="form-control" placeholder="Nickname" />
+              <input autofocus ng-model="currentUser" id="login" type="text" class="form-control" placeholder="Set your nickname" />
               <br>
               <span class="input-group-btn">
-              <button class="btn btn-primary btn-sm" id="btn-chat">Send</button>
+              <button class="btn btn-primary btn-sm" id="btn-chat">Go</button>
               </span>
             </form>
           </div>
@@ -35,6 +35,10 @@
     <br>
     <span ng-bind="error"></span>
   </div>
+
+<div id="allrooms">
+
+</div>
 
   <div class="col-md-6">
     <div class="video-wrapper">

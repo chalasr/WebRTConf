@@ -106,11 +106,18 @@ angular.module('publicApp')
             var li = '<li class="left clearfix"><div class="chat-body clearfix"><p>&nbsp;&nbsp;&nbsp;'+r+'</p></div></li>';
             $('.chat').append(li);
           });
-        console.log('listRooms :', data);
       });
 
       socket.on('listChannels', function(data){
           api.sendInfo(roomId, data);
+      });
+
+      socket.on('getRoomsUris', function(data){
+        console.log(data);
+        angular.forEach(data, function(r){
+          var li = '<a href="/#/room/'+r.token+'">'+r.name+'</a>';
+          $('#allrooms').append(li);
+        });
       });
     }
 
@@ -160,6 +167,9 @@ angular.module('publicApp')
       },
       listChannels: function(room){
          socket.emit('listChannels', { currentRoom : room, id: currentId})
+      },
+      getRoomsUris: function(room){
+         socket.emit('getRoomsUris', { currentRoom : room, id: currentId})
       }
     };
 

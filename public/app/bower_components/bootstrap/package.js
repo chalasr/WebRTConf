@@ -13,8 +13,6 @@ Package.onUse(function (api) {
   api.addFiles([
     'dist/fonts/glyphicons-halflings-regular.eot',
     'dist/fonts/glyphicons-halflings-regular.svg',
-    'dist/fonts/glyphicons-halflings-regular.ttf',
-    'dist/fonts/glyphicons-halflings-regular.woff',
     'dist/fonts/glyphicons-halflings-regular.woff2',
     'dist/css/bootstrap.css',
     'dist/js/bootstrap.js',

@@ -56,7 +56,6 @@ angular.module('publicApp')
 
       $scope.getLoginForm = function(){
         setTimeout("$('#myModal').modal()", 500);
-
       }
 
       $scope.textMsg = function(){
@@ -95,6 +94,11 @@ angular.module('publicApp')
       $scope.login = function() {
         Room.setUserName($scope.currentUser, $routeParams.roomId);
         setTimeout("$('#myModal').modal('hide')", 500);
+        $scope.displayRooms();
+      };
+
+      $scope.displayRooms = function() {
+          Room.getRoomsUris();
       };
 
   });
