@@ -126,13 +126,21 @@ angular.module('publicApp')
 
       socket.on('joinRoom', function(data){
         angular.forEach(data, function(r){
+          var wantedRoom = r.token;
+          socket.emit('init', { room: wantedRoom }, function (wantedRoom, id) {
+            currentId = id;
+            roomId = wantedRoom;
+          });
+          connected = true;
           var count = $rootScope.tabs.filter(function(tab){
-            return (tab.token === r.token)
+            return (tab.token === wantedRoom)
           });
           if(count.length === 0) {
             $rootScope.tabs.push(r);
+            api.joinRoom(wantedRoom);
           }
         });
+        // $('#path').val(wantedRoom);
         $rootScope.$apply(data);
       });
 

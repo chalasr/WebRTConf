@@ -36,6 +36,14 @@
     <span ng-bind="error"></span>
   </div>
 
+  <input type="hidden" id="path" ng-model="path">
+  <div id="allrooms">
+    <li ng-class="{active: isActive(tab.token)}" ng-repeat="tab in $root.tabs track by $index">
+      <a ng-click="console.log(tab.token)">{{tab.name}}</a>
+    </li>
+  </div>
+  <hr>
+
   <div class="col-md-6">
     <div class="video-wrapper">
       <video-player class="col-md-6" ng-repeat="peer in peers" vid-src="{{peer.stream}}"></video-player>

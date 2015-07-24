@@ -16,6 +16,7 @@ angular.module('publicApp')
     }
 
     var stream, wantedRoom;
+    $scope.currentPath = '';
 
       VideoStream.get()
       .then(function (s) {
@@ -35,6 +36,7 @@ angular.module('publicApp')
       }, function () {
         $scope.error = 'No audio/video permissions. Please refresh your browser and allow the audio/video capturing.';
       });
+
       $scope.peers = [];
       Room.on('peer.stream', function (peer) {
         console.log('Client connected, adding new stream');
@@ -115,11 +117,6 @@ angular.module('publicApp')
         return route === $location.path();
       };
 
-      $scope.redirectToRoom = function(route) {
-          // setTimeout("window.location.href = route", 500);
-          $location.path(route);
-      }
-
       $scope.displayRoomUsers = function(currentRoom){
           Room.getRoomUsers(currentRoom);
       };
@@ -133,11 +130,8 @@ angular.module('publicApp')
       };
   })
   .controller('IndexCtrl', function ($sce, $location, $routeParams, $scope) {
-
-      $scope.redirectToRoom = function(route) {
-          // setTimeout("window.location.href = route", 500);
-
-          $location.path('/room/'+route);
-          location.reload();
-      };
+      // $scope.redirectToRoom = function(route) {
+      //     // setTimeout("window.location.href = route", 500);
+      //     $location.path('/room/'+route);
+      // };
   });
