@@ -113,12 +113,33 @@ angular.module('publicApp')
       });
 
       socket.on('getRoomsUris', function(data){
-        console.log(data);
         angular.forEach(data, function(r){
-          var li = '<a href="/#/room/'+r.token+'">'+r.name+'</a>';
-          $('#allrooms').append(li);
+          var count = $rootScope.tabs.filter(function(tab){
+            return (tab.token === r.token)
+          });
+          if(count.length === 0) {
+            $rootScope.tabs.push(r)
+          }
         });
+        $rootScope.$apply();
       });
+
+      socket.on('joinRoom', function(data){
+        angular.forEach(data, function(r){
+          var count = $rootScope.tabs.filter(function(tab){
+            return (tab.token === r.token)
+          });
+          if(count.length === 0) {
+            $rootScope.tabs.push(r)
+          }
+        });
+        $rootScope.$apply();
+      });
+
+      socket.on('getUsers', function(data){
+          api.sendInfo(roomId, data);
+      });
+
     }
 
     var api = {
@@ -166,10 +187,16 @@ angular.module('publicApp')
         socket.emit('currentUser', { currentRoom: room, user: currentUser, id: currentId });
       },
       listChannels: function(room){
-         socket.emit('listChannels', { currentRoom : room, id: currentId})
+         socket.emit('listChannels', { currentRoom : room, id: currentId});
       },
       getRoomsUris: function(room){
-         socket.emit('getRoomsUris', { currentRoom : room, id: currentId})
+         socket.emit('getRoomsUris', { currentRoom : room, id: currentId});
+      },
+      addRoomToUser: function(currentUser, room, wantedRoom){
+         socket.emit('joinRoom', { currentRoom : room, id: currentId, user: currentUser, addRoom: wantedRoom});
+      },
+      getRoomUsers: function(room){
+         socket.emit('getUsers', { currentRoom : room, id: currentId });
       }
     };
 

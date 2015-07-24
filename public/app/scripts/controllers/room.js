@@ -15,7 +15,7 @@ angular.module('publicApp')
       return;
     }
 
-    var stream;
+    var stream, wantedRoom;
 
       VideoStream.get()
       .then(function (s) {
@@ -68,16 +68,22 @@ angular.module('publicApp')
                 switch (msg) {
                   case 'nick':
                     Room.resetUserName(param, $routeParams.roomId);
+                    Room.sendMsg($routeParams.roomId, $scope.currentUser+': nickname changed to '+param);
+                    $scope.currentUser = param;
+                    break;
+                  case 'join':
+                    $scope.joinRoom(args[1]);
                     break;
                 }
                 $('#m').val('');
-                Room.sendMsg($routeParams.roomId, $scope.currentUser+': nickname changed to '+param);
-                $scope.currentUser = param;
             }else if(args[0] && !args[1]) {
                 msg = args[0];
                 switch (msg) {
                   case 'list':
                     Room.listChannels($routeParams.roomId);
+                    break;
+                  case 'users':
+                    $scope.displayRoomUsers($routeParams.roomId);
                     break;
                 }
                 $('#m').val('');
@@ -98,7 +104,19 @@ angular.module('publicApp')
       };
 
       $scope.displayRooms = function() {
-          Room.getRoomsUris();
+        Room.getRoomsUris();
       };
 
+      $scope.isActive = function(route) {
+        route = '/room/'+route;
+        return route === $location.path();
+      };
+
+      $scope.displayRoomUsers = function(currentRoom){
+          Room.getRoomUsers(currentRoom);
+      };
+
+      $scope.joinRoom = function(wantedRoom){
+        Room.addRoomToUser($scope.currentUser, $routeParams.roomId, wantedRoom);
+      };
   });

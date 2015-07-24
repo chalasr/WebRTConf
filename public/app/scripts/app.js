@@ -30,6 +30,9 @@ angular
       .otherwise({
         redirectTo: '/room'
       });
+  })
+  .run(function($rootScope){
+    $rootScope.tabs = [];
   });
 
 angular.module('publicApp')
