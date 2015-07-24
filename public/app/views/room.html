@@ -36,13 +36,6 @@
     <span ng-bind="error"></span>
   </div>
 
-<div id="allrooms" >
-  <li ng-class="{active: isActive(tab.token)}" ng-repeat="tab in $root.tabs track by $index">
-    <a href="#/room/{{tab.token}}">{{tab.name}}</a>
-  </li>
-</div>
-<hr>
-
   <div class="col-md-6">
     <div class="video-wrapper">
       <video-player class="col-md-6" ng-repeat="peer in peers" vid-src="{{peer.stream}}"></video-player>

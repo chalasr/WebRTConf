@@ -130,10 +130,17 @@ angular.module('publicApp')
             return (tab.token === r.token)
           });
           if(count.length === 0) {
-            $rootScope.tabs.push(r)
+            $rootScope.tabs.push(r);
           }
         });
-        $rootScope.$apply();
+        $rootScope.$apply(data);
+      });
+
+      socket.on('leaveRoom', function(data){
+        angular.forEach(data, function(r){
+            $rootScope.tabs.slice(r);
+        });
+        $rootScope.$apply(data);
       });
 
       socket.on('getUsers', function(data){
@@ -194,6 +201,9 @@ angular.module('publicApp')
       },
       addRoomToUser: function(currentUser, room, wantedRoom){
          socket.emit('joinRoom', { currentRoom : room, id: currentId, user: currentUser, addRoom: wantedRoom});
+      },
+      removeRoomToUser: function(currentUser, room, wantedRoom){
+         socket.emit('leaveRoom', { currentRoom : room, id: currentId, user: currentUser, addRoom: wantedRoom});
       },
       getRoomUsers: function(room){
          socket.emit('getUsers', { currentRoom : room, id: currentId });
