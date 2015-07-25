@@ -96,7 +96,6 @@ angular.module('publicApp')
 
       socket.on('chat message', function(data){
         if(data.username){
-          // var li = '<li class="left clearfix"><div class="chat-body clearfix"><p><b>'+data.username+'</b>&nbsp;&nbsp;&nbsp;'+data.msg+'</p></div></li>';
           $rootScope.messages.push(data);
         }
           $rootScope.$apply(data);
@@ -104,9 +103,12 @@ angular.module('publicApp')
 
       socket.on('chat info', function(data){
           angular.forEach(data.msg, function(r){
-            var li = '<li class="left clearfix"><div class="chat-body clearfix"><p>&nbsp;&nbsp;&nbsp;'+r+'</p></div></li>';
-            $('.chat').append(li);
+            var info = [];
+            info.msg = r;
+            info.username = '';
+            $rootScope.messages.push(info);
           });
+          $rootScope.$apply(data);
       });
 
       socket.on('listChannels', function(data){
@@ -180,11 +182,7 @@ angular.module('publicApp')
         stream = s;
       },
       sendMsg: function(room, msg) {
-        if(!msg){
-          var msg = $('#m').val();
-        }
         socket.emit('chat message', { room: room, from: currentId, msg: msg});
-        $('#m').val('');
         return false;
       },
       sendInfo: function(room, msg) {

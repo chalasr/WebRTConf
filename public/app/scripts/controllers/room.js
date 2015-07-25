@@ -16,49 +16,49 @@ angular.module('publicApp')
     }
 
     var stream, wantedRoom;
-    $scope.currentPath = '';
+    $scope.textInput = '';
 
-      VideoStream.get()
-      .then(function (s) {
-        stream = s;
-        Room.init(stream);
-        stream = URL.createObjectURL(stream);
-        if (!$routeParams.roomId) {
-          Room.createRoom()
-          .then(function (roomId) {
-            $location.path('/room/' + roomId);
-          });
-          $scope.getLoginForm();
-        } else {
-          Room.joinRoom($routeParams.roomId)
-          $scope.getLoginForm();
-        }
-      }, function () {
-        $scope.error = 'No audio/video permissions. Please refresh your browser and allow the audio/video capturing.';
-      });
-
-      $scope.peers = [];
-      Room.on('peer.stream', function (peer) {
-        console.log('Client connected, adding new stream');
-        $scope.peers.push({
-          id: peer.id,
-          stream: URL.createObjectURL(peer.stream)
+    VideoStream.get()
+    .then(function (s) {
+      stream = s;
+      Room.init(stream);
+      stream = URL.createObjectURL(stream);
+      if (!$routeParams.roomId) {
+        Room.createRoom()
+        .then(function (roomId) {
+          $location.path('/room/' + roomId);
         });
-      });
-      Room.on('peer.disconnected', function (peer) {
-        console.log('Client disconnected, removing stream');
-        $scope.peers = $scope.peers.filter(function (p) {
-          return p.id !== peer.id;
-        });
-      });
+        $scope.getLoginForm();
+      } else {
+        Room.joinRoom($routeParams.roomId)
+        $scope.getLoginForm();
+      }
+    }, function () {
+      $scope.error = 'No audio/video permissions. Please refresh your browser and allow the audio/video capturing.';
+    });
 
-      $scope.getLocalVideo = function () {
-        return $sce.trustAsResourceUrl(stream);
-      };
+    $scope.peers = [];
+    Room.on('peer.stream', function (peer) {
+      console.log('Client connected, adding new stream');
+      $scope.peers.push({
+        id: peer.id,
+        stream: URL.createObjectURL(peer.stream)
+      });
+    });
+    Room.on('peer.disconnected', function (peer) {
+      console.log('Client disconnected, removing stream');
+      $scope.peers = $scope.peers.filter(function (p) {
+        return p.id !== peer.id;
+      });
+    });
 
-      $scope.getLoginForm = function(){
-        setTimeout("$('#myModal').modal()", 500);
-      };
+    $scope.getLocalVideo = function () {
+      return $sce.trustAsResourceUrl(stream);
+    };
+
+    $scope.getLoginForm = function(){
+      setTimeout("$('#myModal').modal()", 500);
+    };
 
     $(function(){
       var $cont = $('.panel-body');
@@ -69,8 +69,9 @@ angular.module('publicApp')
             }
         });
       });
+
       $scope.textMsg = function(){
-        var msg = $('#m').val();
+        var msg = $scope.textInput;
         if (msg.indexOf('/') == 0) {
             var args = msg.substring(1).split(' ');
             if (args[0] && args[1]) {
@@ -86,7 +87,7 @@ angular.module('publicApp')
                     $scope.joinRoom(args[1]);
                     break;
                 }
-                $('#m').val('');
+                $scope.textInput = '';
             }else if(args[0] && !args[1]) {
                 msg = args[0];
                 switch (msg) {
@@ -97,14 +98,15 @@ angular.module('publicApp')
                     $scope.displayRoomUsers($routeParams.roomId);
                     break;
                 }
-                $('#m').val('');
+                $scope.textInput = '';
             }else {
                 var error = 'unrecognized command: ' + msg + '.\n You can type /help';
-                $('#m').val('');
+                msg = '';
                 console.log(error);
             }
         }else{
-          Room.sendMsg();
+          Room.sendMsg($routeParams.roomId, $scope.textInput);
+          $scope.textInput = '';
         }
       };
 

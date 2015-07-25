@@ -11,8 +11,7 @@
 
 angular
   .module('publicApp', [
-    'ngRoute',
-    'luegg.directives'
+    'ngRoute'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -24,10 +23,6 @@ angular
         templateUrl: 'views/room.html',
         controller: 'RoomCtrl'
       })
-      // .when('/', {
-      //   templateUrl: 'views/home.html',
-      //   controller: 'RoomCtrl'
-      // })
       .otherwise({
         redirectTo: '/room'
       });
@@ -35,6 +30,7 @@ angular
   .run(function($rootScope){
     $rootScope.tabs = [];
     $rootScope.messages = [];
+    $rootScope.infos = [];
   });
 
 angular.module('publicApp')
