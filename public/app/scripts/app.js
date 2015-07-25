@@ -11,7 +11,8 @@
 
 angular
   .module('publicApp', [
-    'ngRoute'
+    'ngRoute',
+    'luegg.directives'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -33,6 +34,7 @@ angular
   })
   .run(function($rootScope){
     $rootScope.tabs = [];
+    $rootScope.messages = [];
   });
 
 angular.module('publicApp')

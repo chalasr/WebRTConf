@@ -96,9 +96,10 @@ angular.module('publicApp')
 
       socket.on('chat message', function(data){
         if(data.username){
-          var li = '<li class="left clearfix"><div class="chat-body clearfix"><p><b>'+data.username+'</b>&nbsp;&nbsp;&nbsp;'+data.msg+'</p></div></li>';
+          // var li = '<li class="left clearfix"><div class="chat-body clearfix"><p><b>'+data.username+'</b>&nbsp;&nbsp;&nbsp;'+data.msg+'</p></div></li>';
+          $rootScope.messages.push(data);
         }
-        $('.chat').append(li);
+          $rootScope.$apply(data);
       });
 
       socket.on('chat info', function(data){
@@ -137,10 +138,8 @@ angular.module('publicApp')
           });
           if(count.length === 0) {
             $rootScope.tabs.push(r);
-            api.joinRoom(wantedRoom);
           }
         });
-        // $('#path').val(wantedRoom);
         $rootScope.$apply(data);
       });
 
@@ -163,7 +162,6 @@ angular.module('publicApp')
           socket.emit('init', { room: r }, function (roomid, id) {
             currentId = id;
             roomId = roomid;
-            // name = "Room"+indexRoom;
           });
           connected = true;
         }
@@ -174,7 +172,6 @@ angular.module('publicApp')
           d.resolve(roomid);
           roomId = roomid;
           currentId = id;
-          // name = "Room"+indexRoom;
           connected = true;
         });
         return d.promise;

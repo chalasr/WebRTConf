@@ -1,0 +1,5 @@
+<style media="screen">input#m { width: 90%;}
+  #sendbtn{ margin-top: -5%;float:right;}
+  #messages { list-style-type: none; margin: 0; padding: 0; }
+  #messages li { padding: 5px 10px; }
+  #messages li:nth-child(odd) { background: #eee; }</style> <!-- Modal --> <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"> <div class="modal-dialog" role="document"> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> <h4 class="modal-title" id="myModalLabel">Modal title</h4> </div> <div class="modal-body"> <div> <form ng-submit="addUser()"> <input id="login" type="text" class="form-control" placeholder="Nickname"> <span class="input-group-btn"> <button class="btn btn-warning btn-sm" id="btn-chat">Send</button> </span> </form> </div> </div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">Valider</button> </div> </div> </div> </div>

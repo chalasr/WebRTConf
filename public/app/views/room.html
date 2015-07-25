@@ -36,11 +36,12 @@
     <span ng-bind="error"></span>
   </div>
 
-  <input type="hidden" id="path" ng-model="path">
   <div id="allrooms">
-    <li ng-class="{active: isActive(tab.token)}" ng-repeat="tab in $root.tabs track by $index">
-      <a ng-click="console.log(tab.token)">{{tab.name}}</a>
+    <ul class="list" ng-repeat="tab in $root.tabs track by $index">
+    <li ng-class="{active: isActive(tab.token)}">
+      <a ng-click="joinRoom(tab.token)">{{tab.name}}</a>
     </li>
+    </ul>
   </div>
   <hr>
 
@@ -62,7 +63,8 @@
               <span class="glyphicon glyphicon-comment"></span> Chat
           </div>
           <div class="panel-body">
-              <ul class="chat">
+              <ul class="chat" ng-repeat="msg in $root.messages">
+                <li class="left clearfix"><div class="chat-body clearfix"><p><b>{{msg.username}}</b>&nbsp;&nbsp;&nbsp;{{msg.msg}}</p></div></li>
               </ul>
           </div>
           <div class="panel-footer">

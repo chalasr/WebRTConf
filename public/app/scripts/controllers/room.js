@@ -58,8 +58,17 @@ angular.module('publicApp')
 
       $scope.getLoginForm = function(){
         setTimeout("$('#myModal').modal()", 500);
-      }
+      };
 
+    $(function(){
+      var $cont = $('.panel-body');
+        $cont[0].scrollTop = $cont[0].scrollHeight;
+        $('#m').keyup(function(e) {
+            if (e.keyCode == 13) {
+                $cont[0].scrollTop = $cont[0].scrollHeight
+            }
+        });
+      });
       $scope.textMsg = function(){
         var msg = $('#m').val();
         if (msg.indexOf('/') == 0) {
@@ -76,9 +85,6 @@ angular.module('publicApp')
                   case 'join':
                     $scope.joinRoom(args[1]);
                     break;
-                  // case 'part':
-                  //   $scope.leaveRoom(args[1]);
-                  //   break;
                 }
                 $('#m').val('');
             }else if(args[0] && !args[1]) {
@@ -128,10 +134,4 @@ angular.module('publicApp')
       $scope.leaveRoom = function(wantedRoom){
         Room.removeRoomToUser($scope.currentUser, $routeParams.roomId, wantedRoom);
       };
-  })
-  .controller('IndexCtrl', function ($sce, $location, $routeParams, $scope) {
-      // $scope.redirectToRoom = function(route) {
-      //     // setTimeout("window.location.href = route", 500);
-      //     $location.path('/room/'+route);
-      // };
   });
