@@ -1,4 +1,4 @@
-AngularJS WebRTC
-================
+AngularJS WebRTC IRC Chat
+================.
 
-Demo project for my [blog post](http://blog.mgechev.com/2014/12/26/multi-user-video-conference-webrtc-angularjs-yeoman/).
+Multi-User Video/Audio Conference App' built with Express, AngularJS & WebRTC 
