@@ -9,8 +9,7 @@
  * Main module of the application.
  */
 
-angular
-  .module('publicApp', [
+angular.module('publicApp', [
     'ngRoute'
   ])
   .config(function ($routeProvider) {
